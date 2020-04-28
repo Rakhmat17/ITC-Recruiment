@@ -1,0 +1,49 @@
+<?php
+    function makeRequest($url, $callDetails = false)
+    {
+      // Set handle
+      $ch = curl_init($url);
+
+      // Set options
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+      // Execute curl handle add results to data return array.
+      $result = curl_exec($ch);
+      
+      // Close cURL and return response.
+      curl_close($ch);
+      return json_decode($result);
+    }
+
+    $url = "https://reqres.in/api/users";
+    $response = makeRequest($url, true);
+?>
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<table border="1">
+<tr>
+    <th> id </th>
+    <th> email </th>
+    <th> first_name </th>
+    <th> last_name </th>
+    <th> Avatar </th>
+</tr>
+<?php //var_dump($response->data);exit; ?> 
+<?php foreach($response->data as $row): ?>
+<tr>
+    <td><?php echo $row->id; ?></td>
+    <td><?php echo $row->email; ?></td>
+    <td><?php echo $row->first_name; ?></td>
+    <td><?php echo $row->last_name; ?></td>
+    <td><img src="<?php echo $row->avatar; ?>"></td>
+    
+</tr>
+<?php endforeach ?>
+</table>
+
+</body>
+</html>
