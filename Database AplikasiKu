@@ -1,0 +1,5 @@
+SELECT event.id_event, event.waktu_acara, event.tgl_acara,event.nama_tempat,event.judul_event,
+SUM(tiket.kuota_online)AS kuota_online, SUM(tiket.kuota_offline)AS kuota_offline, (tiket.harga_tiket)AS range_harga, COUNT(pregenerate_barcode.id_event)AS kuota_pregenerate
+FROM event join tiket  ON event.id_event=tiket.id_event  
+JOIN pregenerate_barcode ON event.id_event=pregenerate_barcode.id_pregenerate
+WHERE status_event='live' GROUP BY id_event
